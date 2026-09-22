@@ -39,7 +39,7 @@ public class TCPController {
     public TCPController(ServicesImpl services, int port) {
         this.services = services;
         try {
-            serverSocket = new ServerSocket(port, 10, InetAddress.getByName("192.168.131.214"));
+            serverSocket = new ServerSocket(port, 50, InetAddress.getByName("0.0.0.0"));
             executor = Executors.newFixedThreadPool(5);
             gson = new GsonBuilder().create();
         } catch (Exception e) {
@@ -105,11 +105,26 @@ public class TCPController {
 
                             response.data.put("gameEnd", resp);
                         } catch (Exception e) {
+                            response.status = "OK";
                             response.data.put("gameEnd", true);
                             response.data.put("win", false);
+                            response.data.put("message", e.getMessage());
 
                         }
                         Cell[][] board = services.printBoard();
+                        response.data.put("board", board);
+                        break;
+                    case "MARK_CELL":
+                        int mi = Integer.parseInt(data.get("i"));
+                        int mj = Integer.parseInt(data.get("j"));
+                        try {
+                            services.markCell(mi, mj);
+                            response.status = "OK";
+                        } catch (Exception e) {
+                            response.status = "ERROR";
+                            response.data.put("message", e.getMessage());
+                        }
+                        board = services.printBoard();
                         response.data.put("board", board);
                         break;
                     case "SOW_ALL":

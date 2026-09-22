@@ -31,6 +31,7 @@ dependencies {
 */
 subprojects{
     apply plugin: 'java'
+    apply plugin: 'application'
 
     repositories {
         mavenCentral()
@@ -40,10 +41,14 @@ subprojects{
         implementation 'com.google.code.gson:gson:2.10.1'
     }
 
+    run {
+        standardInput = System.in
+    }
+
     jar {
         manifest {
             attributes(
-                    'Main-Class': 'co.icesi.buscaminas.Main',
+                    'Main-Class': application.mainClass,
                     'Class-Path': configurations.runtimeClasspath.resolve().collect { it.toURI() }.join(' ')
             )
         }

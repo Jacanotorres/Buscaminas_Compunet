@@ -23,8 +23,13 @@ public class ServicesImpl{
     }
 
     public void showAll(boolean show) {
-        
+
         game.showAll(show);
+    }
+
+    public Cell[][] markCell(int i, int j) {
+        game.markCell(i, j);
+        return game.getBoard();
     }
 
     public Cell[][] printBoard() {
