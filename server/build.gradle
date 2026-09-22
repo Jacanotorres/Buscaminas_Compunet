@@ -1,0 +1,3 @@
+application {
+    mainClass = 'co.icesi.buscaminas.Main'
+}
